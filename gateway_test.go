@@ -47,6 +47,33 @@ Network Destination        Netmask          Gateway       Interface  Metric
 ===========================================================================
 Persistent Routes:
 `)
+	chineseData := []byte(`
+===========================================================================
+接口列表
+ 15...a4 5e 60 ba 42 7e ......Bluetooth 设备(个人区域网)
+ 11...00 0c 29 e6 e0 a5 ......Intel(R) PRO/1000 MT Network Connection
+  1...........................Software Loopback Interface 1
+ 12...00 00 00 00 00 00 00 e0 Microsoft ISATAP Adapter
+ 13...00 00 00 00 00 00 00 e0 Teredo Tunneling Pseudo-Interface
+ 16...00 00 00 00 00 00 00 e0 Microsoft ISATAP Adapter #2
+===========================================================================
+
+IPv4 路由表
+===========================================================================
+活动路由:
+网络目标        网络掩码          网关       接口   跃点数
+          0.0.0.0          0.0.0.0    192.168.142.2  192.168.142.129     10
+===========================================================================
+永久路由:
+  无
+
+IPv6 路由表
+===========================================================================
+活动路由:
+  无
+永久路由:
+  无
+`)
 
 	testcases := []testcase{
 		{correctData, true, "10.88.88.2"},
@@ -54,6 +81,7 @@ Persistent Routes:
 		{noRoute, false, ""},
 		{badRoute1, false, ""},
 		{badRoute2, false, ""},
+		{chineseData, true, "192.168.142.2"},
 	}
 
 	test(t, testcases, parseWindowsRoutePrint)

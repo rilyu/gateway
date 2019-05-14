@@ -20,12 +20,9 @@ func parseWindowsRoutePrint(output []byte) (net.IP, error) {
 	// Not using regex because output is quite standard from Windows XP to 8 (NEEDS TESTING)
 	lines := strings.Split(string(output), "\n")
 	for idx, line := range lines {
-		if strings.HasPrefix(line, "Active Routes:") || strings.HasPrefix(line, "活动路由:") {
-			if len(lines) <= idx+2 {
-				return nil, errNoGateway
-			}
+		if strings.Count(line, "0.0.0.0") == 2 {
 
-			fields := strings.Fields(lines[idx+2])
+			fields := strings.Fields(lines[idx])
 			if len(fields) < 3 {
 				return nil, errNoGateway
 			}
